@@ -6,7 +6,12 @@
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": ".open-next/assets",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
   },
-  "observability": { "enabled": true }
+  "observability": { "enabled": true },
+  "vars": {
+    "BACKEND_URL": "https://backend-pmz2.onrender.com",
+    "NEXT_PUBLIC_API_URL": "/api/v1",
+    "NEXT_PUBLIC_COOKIE_DOMAIN": "https://www.marketplace.melloncore.com",
+  },
 }
