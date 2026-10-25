@@ -8,7 +8,8 @@ const config: Config = {
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   moduleNameMapper: { "^@/(.*)$": "<rootDir>/$1" },
   testMatch: ["**/__tests__/**/*.test.{ts,tsx}"],
-  testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],
+  testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/", "<rootDir>/.open-next/"],
+  modulePathIgnorePatterns: ["<rootDir>/.open-next/"],
   collectCoverageFrom: ["lib/**/*.ts", "context/**/*.tsx", "components/**/*.tsx", "app/**/page.tsx"],
 };
 

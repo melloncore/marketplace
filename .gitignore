@@ -2,3 +2,9 @@ node_modules
 .next
 coverage
 *.tsbuildinfo
+
+# Environment files (keep only safe templates in source control).
+.env
+.env.*
+!.env.example
+!.env.production.example

@@ -26,10 +26,10 @@ export interface CartItem { product: Product; qty: number }
 export interface DeliveryDetails {
   name: string; email: string; phone: string; address: string; city: string; state: string; note: string;
 }
-export interface CheckoutForm extends DeliveryDetails { card: string; expiry: string; cvv: string }
+export interface CheckoutForm extends DeliveryDetails {}
 
 export interface OrderLine { id: number; name: string; price: number; qty: number }
 export interface Order {
   id: string; date: string; items: OrderLine[]; delivery: DeliveryDetails;
-  subtotal: number; fee: number; total: number; status: "Paid";
+  subtotal: number; fee: number; total: number; status: "PAID" | "PENDING" | "FAILED";
 }

@@ -1,10 +1,18 @@
 import { render } from "@testing-library/react";
 import type { ReactElement } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CartProvider } from "@/context/CartContext";
 import { findProduct } from "@/lib/products";
 import type { CartItem, Product } from "@/lib/types";
 
-export const renderWithCart = (ui: ReactElement) => render(<CartProvider>{ui}</CartProvider>);
+export const renderWithCart = (ui: ReactElement) => {
+  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <CartProvider>{ui}</CartProvider>
+    </QueryClientProvider>,
+  );
+};
 
 export const getProduct = (id: number): Product => {
   const p = findProduct(id);

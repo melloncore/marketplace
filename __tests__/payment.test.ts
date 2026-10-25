@@ -1,20 +1,28 @@
+import { initializeOrder } from "@/lib/api";
 import { processPayment } from "@/lib/payment";
 
-describe("processPayment (simulated)", () => {
-  beforeEach(() => jest.useFakeTimers());
-  afterEach(() => jest.useRealTimers());
+jest.mock("@/lib/api", () => ({ initializeOrder: jest.fn() }));
 
-  it("succeeds for a positive amount and returns a reference", async () => {
-    const p = processPayment(5000);
-    jest.advanceTimersByTime(2000);
-    const r = await p;
-    expect(r.ok).toBe(true);
-    expect(r.reference).toMatch(/^PAY-/);
-  });
+describe("processPayment", () => {
+  it("delegates order initialization to the backend Paystack API", async () => {
+    const input = {
+      items: [{ productId: 8, quantity: 2 }],
+      delivery: {
+        name: "Ada Obi",
+        email: "ada@example.com",
+        phone: "08012345678",
+        address: "12 Ring Road",
+        city: "Ibadan",
+        state: "Oyo",
+      },
+    };
+    const payment = {
+      authorizationUrl: "https://checkout.paystack.com/test",
+      reference: "MSC-reference",
+    };
+    (initializeOrder as jest.Mock).mockResolvedValue(payment);
 
-  it("fails for a zero amount", async () => {
-    const p = processPayment(0);
-    jest.advanceTimersByTime(2000);
-    expect((await p).ok).toBe(false);
+    await expect(processPayment(input)).resolves.toEqual(payment);
+    expect(initializeOrder).toHaveBeenCalledWith(input);
   });
 });

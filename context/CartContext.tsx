@@ -33,6 +33,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
   useEffect(() => { if (ready) localStorage.setItem("cart", JSON.stringify(items)); }, [items, ready]);
 
   const add: CartCtxValue["add"] = (product, qty = 1) => {
+    if (!Number.isInteger(qty) || qty < 1 || product.stock < 1) {
+      toast.error(`${product.name} is unavailable`);
+      return;
+    }
     setItems((cur) => {
       const found = cur.find((i) => i.product.id === product.id);
       if (found) return cur.map((i) => i.product.id === product.id ? { ...i, qty: Math.min(i.qty + qty, product.stock) } : i);
@@ -41,7 +45,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
     toast.success(`${product.name} added to cart`);
   };
   const setQty: CartCtxValue["setQty"] = (id, qty) =>
-    setItems((cur) => cur.map((i) => i.product.id === id ? { ...i, qty: Math.max(1, Math.min(qty || 1, i.product.stock)) } : i));
+    setItems((cur) => cur.map((i) => i.product.id === id
+      ? { ...i, qty: Number.isFinite(qty) ? Math.max(1, Math.min(Math.floor(qty), i.product.stock)) : 1 }
+      : i));
   const remove: CartCtxValue["remove"] = (id) => { setItems((cur) => cur.filter((i) => i.product.id !== id)); toast.info("Item removed"); };
   const clear = () => setItems([]);
 

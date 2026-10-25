@@ -21,7 +21,7 @@ export default function ProductCard({ p }: { p: Product }) {
         <p className="text-xs text-ink/60">{cardSpecs(p).join(" · ")}</p>
         <div className="mt-auto flex items-center justify-between pt-2">
           <span className="font-extrabold">{naira(p.price)}</span>
-          <button onClick={() => add(p)} className="grid h-9 w-9 place-items-center rounded-lg bg-ink text-white hover:bg-brand" aria-label={`Add ${p.name} to cart`}>
+          <button onClick={() => add(p)} disabled={p.stock < 1} className="grid h-9 w-9 place-items-center rounded-lg bg-ink text-white hover:bg-brand disabled:cursor-not-allowed disabled:opacity-40" aria-label={`Add ${p.name} to cart`}>
             <FiShoppingCart />
           </button>
         </div>

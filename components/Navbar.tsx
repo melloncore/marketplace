@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { FiShoppingCart } from "react-icons/fi";
-import { MdDevices } from "react-icons/md";
 import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
@@ -10,8 +10,8 @@ export default function Navbar() {
     <header className="sticky top-0 z-30 border-b border-ink/10 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link href="/" className="flex items-center gap-2 text-lg font-extrabold tracking-tight">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand text-white"><MdDevices /></span>
-          GadgetHub
+          <Image src="/melloncore-logo.png" alt="" width={36} height={36} className="object-contain" />
+          Mellon Strata Core
         </Link>
         <Link href="/cart" className="relative flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-paper" aria-label="Cart">
           <FiShoppingCart className="text-xl" /> Cart

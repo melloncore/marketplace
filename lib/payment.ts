@@ -1,10 +1,9 @@
-export interface PaymentResult { ok: boolean; reference: string }
+import { initializeOrder, type OrderRequest } from "./api";
 
-/**
- * SIMULATED payment. Replace the body with Paystack / Flutterwave:
- * create the transaction on your server, open their popup, then verify on your server.
- */
-export async function processPayment(amount: number): Promise<PaymentResult> {
-  await new Promise((r) => setTimeout(r, 1500));
-  return { ok: amount > 0, reference: "PAY-" + Date.now() };
+export function processPayment(input: OrderRequest) {
+  return initializeOrder(input);
+}
+
+export function redirectToPaystack(authorizationUrl: string): void {
+  window.location.assign(authorizationUrl);
 }

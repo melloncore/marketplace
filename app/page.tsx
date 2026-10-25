@@ -1,20 +1,26 @@
 "use client";
 import { useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { FiSearch } from "react-icons/fi";
-import { CATEGORIES, PHONE_BRANDS, products } from "@/lib/products";
+import { CATEGORIES, PHONE_BRANDS } from "@/lib/products";
 import type { Category } from "@/lib/types";
 import ProductCard from "@/components/ProductCard";
+import { listProducts } from "@/lib/api";
 
 export default function Home() {
   const [cat, setCat] = useState<Category | "all">("all");
   const [brand, setBrand] = useState<string>("all");
   const [q, setQ] = useState("");
+  const { data: products = [], isLoading, error } = useQuery({
+    queryKey: ["marketplace", "products"],
+    queryFn: listProducts,
+  });
 
   const list = useMemo(() => products.filter((p) =>
     (cat === "all" || p.category === cat) &&
     (cat !== "phone" || brand === "all" || p.brand === brand) &&
     p.name.toLowerCase().includes(q.toLowerCase())
-  ), [cat, brand, q]);
+  ), [products, cat, brand, q]);
 
   const pill = (active: boolean) =>
     `rounded-full border px-4 py-1.5 text-sm font-semibold ${active ? "border-ink bg-ink text-white" : "border-ink/20 bg-white hover:border-ink"}`;
@@ -46,7 +52,11 @@ export default function Home() {
         )}
       </div>
 
-      {list.length === 0
+      {isLoading
+        ? <p role="status" className="py-16 text-center text-ink/60">Loading products…</p>
+        : error
+          ? <p role="alert" className="py-16 text-center text-red-700">Products could not be loaded. Please try again shortly.</p>
+          : list.length === 0
         ? <p className="py-16 text-center text-ink/60">No gadgets match. Try another search or category.</p>
         : <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">{list.map((p) => <ProductCard key={p.id} p={p} />)}</div>}
     </>
