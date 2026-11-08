@@ -1,16 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { pingVisitor, recordAnalyticsEvent, submitConsent } from "@/lib/api";
+import { useAnalyticsEvent, useSubmitConsent, useVisitorPing } from "@/lib/api";
 import { getAnalyticsConsent, saveAnalyticsConsent } from "@/lib/consent";
 
 export default function CookieConsentBanner() {
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState("");
-  const ping = useMutation({ mutationFn: pingVisitor });
-  const consent = useMutation({ mutationFn: submitConsent });
-  const event = useMutation({ mutationFn: recordAnalyticsEvent });
+  const ping = useVisitorPing(false);
+  const consent = useSubmitConsent();
+  const event = useAnalyticsEvent();
 
   useEffect(() => {
     if (getAnalyticsConsent() === null) {
@@ -21,8 +20,12 @@ export default function CookieConsentBanner() {
   async function choose(accepted: boolean) {
     setError("");
     try {
-      await ping.mutateAsync();
-      await consent.mutateAsync(accepted);
+      const pingResult = await ping.refetch();
+      if (pingResult.isError) throw pingResult.error;
+      if (!pingResult.data?.tracked) {
+        throw new Error("The server did not confirm visitor tracking.");
+      }
+      await consent.mutateAsync({ accepted });
       saveAnalyticsConsent(accepted);
       if (accepted) {
         event.mutate({ surface: "marketplace", type: "page_view", path: window.location.pathname });
@@ -41,8 +44,8 @@ export default function CookieConsentBanner() {
         {error && <p role="alert" className="mt-1 text-sm text-red-300">{error}</p>}
       </div>
       <div className="flex gap-2">
-        <button onClick={() => choose(false)} disabled={ping.isPending || consent.isPending} className="rounded-lg border border-white/40 px-3 py-2 text-sm">Decline</button>
-        <button onClick={() => choose(true)} disabled={ping.isPending || consent.isPending} className="rounded-lg bg-white px-3 py-2 text-sm font-bold text-ink">Accept</button>
+        <button onClick={() => choose(false)} disabled={ping.isFetching || consent.isPending} className="rounded-lg border border-white/40 px-3 py-2 text-sm">Decline</button>
+        <button onClick={() => choose(true)} disabled={ping.isFetching || consent.isPending} className="rounded-lg bg-white px-3 py-2 text-sm font-bold text-ink">Accept</button>
       </div>
     </aside>
   );

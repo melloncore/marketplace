@@ -2,14 +2,14 @@ import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useParams } from "next/navigation";
 import { toast } from "react-toastify";
-import { listProducts } from "@/lib/api";
+import { listProducts } from "@/lib/api/marketplace";
 import { products } from "@/lib/products";
 import ProductPage from "@/app/product/[id]/page";
 import { renderWithCart } from "./test-utils";
 
 jest.mock("next/navigation", () => ({ useParams: jest.fn(), useRouter: jest.fn() }));
 jest.mock("react-toastify", () => ({ toast: { success: jest.fn(), error: jest.fn(), info: jest.fn() } }));
-jest.mock("@/lib/api", () => ({ listProducts: jest.fn() }));
+jest.mock("@/lib/api/marketplace", () => ({ listProducts: jest.fn() }));
 
 const open = (id: string) => { (useParams as jest.Mock).mockReturnValue({ id }); return renderWithCart(<ProductPage />); };
 

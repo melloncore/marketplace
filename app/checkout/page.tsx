@@ -1,12 +1,12 @@
 "use client";
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { FiExternalLink } from "react-icons/fi";
 import { useCart } from "@/context/CartContext";
 import { naira } from "@/lib/products";
 import { STATES, deliveryFee, validateCheckout } from "@/lib/checkout";
-import { processPayment, redirectToPaystack } from "@/lib/payment";
+import { redirectToPaystack } from "@/lib/payment";
+import { useInitializeOrder } from "@/lib/api";
 import type { CheckoutForm } from "@/lib/types";
 
 type FieldEvent = ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>;
@@ -14,8 +14,7 @@ type FieldEvent = ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAre
 export default function Checkout() {
   const { items, subtotal, ready } = useCart();
   const [f, setF] = useState<CheckoutForm>({ name: "", email: "", phone: "", address: "", city: "", state: "Lagos", note: "" });
-  const paymentMutation = useMutation({
-    mutationFn: processPayment,
+  const paymentMutation = useInitializeOrder({
     onSuccess: ({ authorizationUrl, reference }) => {
       localStorage.setItem("pendingOrderReference", reference);
       redirectToPaystack(authorizationUrl);

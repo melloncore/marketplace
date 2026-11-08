@@ -2,19 +2,17 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useMutation } from "@tanstack/react-query";
 import { FiCheckCircle } from "react-icons/fi";
 import { useCart } from "@/context/CartContext";
 import { naira } from "@/lib/products";
-import { verifyOrderPayment } from "@/lib/api";
+import { useVerifyOrderPayment } from "@/lib/api";
 import type { Order } from "@/lib/types";
 
 export default function Success() {
   const [order, setOrder] = useState<Order | null>(null);
   const [started, setStarted] = useState(false);
   const { clear } = useCart();
-  const verification = useMutation({
-    mutationFn: verifyOrderPayment,
+  const verification = useVerifyOrderPayment({
     onSuccess: ({ paid, order: confirmed }) => {
       if (!paid || confirmed.status !== "PAID") return;
       setOrder(confirmed);

@@ -2,13 +2,12 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
-import { recordAnalyticsEvent } from "@/lib/api";
+import { useAnalyticsEvent } from "@/lib/api";
 import { getAnalyticsConsent } from "@/lib/consent";
 
 export default function AnalyticsTracker() {
   const pathname = usePathname();
-  const eventMutation = useMutation({ mutationFn: recordAnalyticsEvent });
+  const eventMutation = useAnalyticsEvent();
 
   useEffect(() => {
     if (getAnalyticsConsent() === "accepted") {

@@ -1,6 +1,9 @@
 const configuredOrigin = process.env.NEXT_PUBLIC_API_URL?.trim().replace(/\/+$/, "");
-const apiOrigin = (configuredOrigin ?? "").replace(/\/api\/v1$/, "");
-const API_ROOT = `${apiOrigin}/api/v1`;
+const API_ROOT = configuredOrigin
+  ? configuredOrigin.endsWith("/api/v1")
+    ? configuredOrigin
+    : `${configuredOrigin}/api/v1`
+  : "/api/v1";
 
 export class ApiError extends Error {
   constructor(message: string, readonly status: number) {

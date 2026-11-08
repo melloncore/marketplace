@@ -1,20 +1,17 @@
 "use client";
 import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { FiSearch } from "react-icons/fi";
 import { CATEGORIES, PHONE_BRANDS } from "@/lib/products";
 import type { Category } from "@/lib/types";
 import ProductCard from "@/components/ProductCard";
-import { listProducts } from "@/lib/api";
+import MarketplaceAdvertSection from "@/components/MarketplaceAdvertSection";
+import { useProducts } from "@/lib/api";
 
 export default function Home() {
   const [cat, setCat] = useState<Category | "all">("all");
   const [brand, setBrand] = useState<string>("all");
   const [q, setQ] = useState("");
-  const { data: products = [], isLoading, error } = useQuery({
-    queryKey: ["marketplace", "products"],
-    queryFn: listProducts,
-  });
+  const { data: products = [], isLoading, error } = useProducts();
 
   const list = useMemo(() => products.filter((p) =>
     (cat === "all" || p.category === cat) &&
@@ -27,10 +24,7 @@ export default function Home() {
 
   return (
     <>
-      <section className="mb-8 rounded-2xl bg-ink p-8 text-white">
-        <h1 className="max-w-xl text-3xl font-extrabold leading-tight sm:text-4xl">Laptops, phones and accessories, delivered to your door.</h1>
-        <p className="mt-3 max-w-lg text-white/70">Pick a gadget, enter your delivery address, pay securely.</p>
-      </section>
+      <MarketplaceAdvertSection />
 
       <div className="mb-6 flex flex-col gap-4">
         <div className="relative max-w-md">

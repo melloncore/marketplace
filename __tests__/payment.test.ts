@@ -1,7 +1,7 @@
-import { initializeOrder } from "@/lib/api";
+import { initializeOrder } from "@/lib/api/marketplace";
 import { processPayment } from "@/lib/payment";
 
-jest.mock("@/lib/api", () => ({ initializeOrder: jest.fn() }));
+jest.mock("@/lib/api/marketplace", () => ({ initializeOrder: jest.fn() }));
 
 describe("processPayment", () => {
   it("delegates order initialization to the backend Paystack API", async () => {

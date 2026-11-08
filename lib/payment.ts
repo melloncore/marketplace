@@ -1,4 +1,4 @@
-import { initializeOrder, type OrderRequest } from "./api";
+import { initializeOrder, type OrderRequest } from "./api/marketplace";
 
 export function processPayment(input: OrderRequest) {
   return initializeOrder(input);

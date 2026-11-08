@@ -1,21 +1,17 @@
 "use client";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { FiShoppingCart, FiArrowLeft } from "react-icons/fi";
 import { CATEGORIES, getSpecRows, naira } from "@/lib/products";
 import { useCart } from "@/context/CartContext";
-import { listProducts } from "@/lib/api";
+import { useProducts } from "@/lib/api";
 
 export default function ProductPage() {
   const { id } = useParams<{ id: string }>();
   const { add } = useCart();
   const [qty, setQty] = useState(1);
-  const { data: products = [], isLoading, error } = useQuery({
-    queryKey: ["marketplace", "products"],
-    queryFn: listProducts,
-  });
+  const { data: products = [], isLoading, error } = useProducts();
   const p = products.find((product) => product.id === Number(id));
 
   if (isLoading) return <p role="status" className="py-16 text-center">Loading product…</p>;

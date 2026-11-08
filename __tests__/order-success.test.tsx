@@ -1,10 +1,10 @@
 import { screen } from "@testing-library/react";
 import Success from "@/app/order-success/page";
-import { verifyOrderPayment } from "@/lib/api";
+import { verifyOrderPayment } from "@/lib/api/marketplace";
 import type { Order } from "@/lib/types";
 import { renderWithCart } from "./test-utils";
 
-jest.mock("@/lib/api", () => ({ verifyOrderPayment: jest.fn() }));
+jest.mock("@/lib/api/marketplace", () => ({ verifyOrderPayment: jest.fn() }));
 
 const order: Order = {
   id: "MSC-reference123",

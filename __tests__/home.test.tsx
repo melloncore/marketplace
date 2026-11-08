@@ -1,12 +1,15 @@
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { listProducts } from "@/lib/api";
+import { listProducts } from "@/lib/api/marketplace";
 import { products } from "@/lib/products";
 import Home from "@/app/page";
 import { renderWithCart } from "./test-utils";
 
 jest.mock("react-toastify", () => ({ toast: { success: jest.fn(), error: jest.fn(), info: jest.fn() } }));
-jest.mock("@/lib/api", () => ({ listProducts: jest.fn() }));
+jest.mock("@/lib/api/marketplace", () => ({ listProducts: jest.fn() }));
+jest.mock("@/lib/api/adverts", () => ({
+  listMarketplaceAdverts: jest.fn().mockResolvedValue([]),
+}));
 
 describe("Home page", () => {
   beforeEach(() => {
