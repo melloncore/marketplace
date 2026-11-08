@@ -12,6 +12,6 @@
   "vars": {
     "BACKEND_URL": "https://backend-pmz2.onrender.com",
     "NEXT_PUBLIC_API_URL": "/api/v1",
-    "NEXT_PUBLIC_COOKIE_DOMAIN": "https://www.marketplace.melloncore.com",
+    "NEXT_PUBLIC_COOKIE_DOMAIN": ".melloncore.com",
   },
 }

@@ -29,7 +29,7 @@ export default function ProductPage() {
         <div className="grid h-72 place-items-center rounded-2xl bg-white text-7xl font-extrabold text-ink/15">{p.brand}</div>
         <div>
           <p className="text-sm font-semibold text-brand">{CATEGORIES.find((c) => c.id === p.category)?.label} · {p.brand}</p>
-          <h1 className="mt-1 text-3xl font-extrabold">{p.name}</h1>
+          <h1 className="mt-1 break-words text-2xl font-extrabold sm:text-3xl">{p.name}</h1>
           <p className="mt-3 text-2xl font-extrabold">{naira(p.price)}</p>
           <p className="mt-1 text-sm text-ink/60">{p.stock} in stock</p>
 
@@ -45,9 +45,9 @@ export default function ProductPage() {
           <h2 className="mb-2 mt-8 font-bold">Specifications</h2>
           <dl className="divide-y divide-ink/10 rounded-xl border border-ink/10 bg-white text-sm">
             {getSpecRows(p).map(({ key, label, value }) => (
-              <div key={key} className="grid grid-cols-3 gap-2 px-4 py-2.5">
-                <dt className="text-ink/60">{label}</dt>
-                <dd className="col-span-2 font-medium">{value}</dd>
+              <div key={key} className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-2 px-4 py-2.5">
+                <dt className="break-words text-ink/60">{label}</dt>
+                <dd className="min-w-0 break-words font-medium">{value}</dd>
               </div>
             ))}
           </dl>

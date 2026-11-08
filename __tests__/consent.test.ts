@@ -27,4 +27,23 @@ describe("analytics consent cookies", () => {
 
     expect(getAnalyticsConsent()).toBe("declined");
   });
+
+  it("writes the shared parent domain when configured", () => {
+    process.env.NEXT_PUBLIC_COOKIE_DOMAIN = ".melloncore.com";
+    const cookieSetter = jest.spyOn(Document.prototype, "cookie", "set");
+
+    try {
+      saveAnalyticsConsent(true);
+
+      expect(cookieSetter).toHaveBeenCalledWith(expect.stringContaining("; Domain=.melloncore.com"));
+    } finally {
+      cookieSetter.mockRestore();
+    }
+  });
+
+  it("rejects a URL instead of silently creating a host-only consent cookie", () => {
+    process.env.NEXT_PUBLIC_COOKIE_DOMAIN = "https://www.melloncore.com";
+
+    expect(() => saveAnalyticsConsent(true)).toThrow("must be a bare cookie domain");
+  });
 });

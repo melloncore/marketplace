@@ -68,7 +68,7 @@ export default function Checkout() {
       <aside className="h-fit rounded-xl border border-ink/10 bg-white p-5 text-sm">
         <h2 className="mb-3 font-bold">Order summary</h2>
         {items.map(({ product: p, qty }) => (
-          <div key={p.id} className="flex justify-between py-1"><span>{p.name} × {qty}</span><span>{naira(p.price * qty)}</span></div>
+          <div key={p.id} className="flex items-start justify-between gap-3 py-1"><span className="min-w-0 break-words">{p.name} × {qty}</span><span className="shrink-0">{naira(p.price * qty)}</span></div>
         ))}
         <hr className="my-3 border-ink/10" />
         <div className="flex justify-between"><span>Subtotal</span><span>{naira(subtotal)}</span></div>

@@ -27,8 +27,9 @@ react-toastify.
   respectively. Same-origin API proxies keep cookies first-party and available
   across all three ports.
 - The marketplace and client share analytics consent; set
-  `NEXT_PUBLIC_COOKIE_DOMAIN` to the shared production parent domain so consent
-  persists across their subdomains. Leave it unset for localhost.
+  `NEXT_PUBLIC_COOKIE_DOMAIN` to the bare shared production parent domain (for
+  example, `.melloncore.com`, without a URL scheme or path) so consent persists
+  across their subdomains. Leave it unset for localhost.
 - API modules are grouped in `lib/api/` by concern (`marketplace`, `analytics`,
   and `landing`); shared request handling is in `http.ts`. React Query powers
   product queries and checkout, consent, and analytics mutations.

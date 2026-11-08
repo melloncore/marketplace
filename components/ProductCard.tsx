@@ -13,14 +13,14 @@ export default function ProductCard({ p }: { p: Product }) {
   const { add } = useCart();
   const Icon = ICONS[p.category];
   return (
-    <div className="flex flex-col overflow-hidden rounded-xl border border-ink/10 bg-white">
+    <div className="flex min-w-0 flex-col overflow-hidden rounded-xl border border-ink/10 bg-white">
       <Link href={`/product/${p.id}`} className="grid h-40 place-items-center bg-ink/5 text-5xl text-ink/40"><Icon /></Link>
-      <div className="flex flex-1 flex-col gap-2 p-4">
+      <div className="flex min-w-0 flex-1 flex-col gap-2 p-4">
         <p className="text-xs font-semibold text-brand">{p.brand}</p>
-        <Link href={`/product/${p.id}`} className="font-bold leading-snug hover:underline">{p.name}</Link>
-        <p className="text-xs text-ink/60">{cardSpecs(p).join(" · ")}</p>
+        <Link href={`/product/${p.id}`} className="break-words font-bold leading-snug hover:underline">{p.name}</Link>
+        <p className="break-words text-xs text-ink/60">{cardSpecs(p).join(" · ")}</p>
         <div className="mt-auto flex items-center justify-between pt-2">
-          <span className="font-extrabold">{naira(p.price)}</span>
+          <span className="break-words font-extrabold">{naira(p.price)}</span>
           <button onClick={() => add(p)} disabled={p.stock < 1} className="grid h-9 w-9 place-items-center rounded-lg bg-ink text-white hover:bg-brand disabled:cursor-not-allowed disabled:opacity-40" aria-label={`Add ${p.name} to cart`}>
             <FiShoppingCart />
           </button>

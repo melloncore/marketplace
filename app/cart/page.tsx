@@ -15,15 +15,15 @@ export default function CartPage() {
       <div className="space-y-3 lg:col-span-2">
         <h1 className="text-2xl font-extrabold">Your cart</h1>
         {items.map(({ product: p, qty }) => (
-          <div key={p.id} className="flex items-center justify-between gap-4 rounded-xl border border-ink/10 bg-white p-4">
-            <div>
-              <Link href={`/product/${p.id}`} className="font-bold hover:underline">{p.name}</Link>
+          <div key={p.id} className="flex flex-col gap-4 rounded-xl border border-ink/10 bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="min-w-0">
+              <Link href={`/product/${p.id}`} className="break-words font-bold hover:underline">{p.name}</Link>
               <p className="text-sm text-ink/60">{naira(p.price)}</p>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center justify-between gap-3 sm:flex-nowrap sm:justify-end">
               <input type="number" min={1} max={p.stock} value={qty} aria-label={`Quantity for ${p.name}`}
                 onChange={(e) => setQty(p.id, Number(e.target.value))} className="input w-16 text-center" />
-              <span className="w-28 text-right font-bold">{naira(p.price * qty)}</span>
+              <span className="min-w-[7rem] text-right font-bold">{naira(p.price * qty)}</span>
               <button onClick={() => remove(p.id)} className="text-red-600" aria-label={`Remove ${p.name}`}><FiTrash2 /></button>
             </div>
           </div>

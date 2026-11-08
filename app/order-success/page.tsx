@@ -52,14 +52,14 @@ export default function Success() {
   }
 
   return (
-    <div className="mx-auto max-w-xl rounded-2xl border border-ink/10 bg-white p-8">
+    <div className="mx-auto max-w-xl rounded-2xl border border-ink/10 bg-white p-5 sm:p-8">
       <FiCheckCircle className="text-5xl text-green-600" />
       <h1 className="mt-3 text-2xl font-extrabold">Order placed</h1>
       <p className="text-sm text-ink/60">Order {order.id}. A confirmation will be sent to {order.delivery.email}.</p>
       <div className="mt-5 space-y-1 text-sm">
-        {order.items.map((item) => <div key={item.id} className="flex justify-between"><span>{item.name} × {item.qty}</span><span>{naira(item.price * item.qty)}</span></div>)}
-        <div className="flex justify-between pt-2"><span>Delivery</span><span>{naira(order.fee)}</span></div>
-        <div className="flex justify-between font-extrabold"><span>Total paid</span><span>{naira(order.total)}</span></div>
+        {order.items.map((item) => <div key={item.id} className="flex justify-between gap-3"><span className="min-w-0 break-words">{item.name} × {item.qty}</span><span className="shrink-0">{naira(item.price * item.qty)}</span></div>)}
+        <div className="flex justify-between gap-3 pt-2"><span>Delivery</span><span className="shrink-0">{naira(order.fee)}</span></div>
+        <div className="flex justify-between gap-3 font-extrabold"><span>Total paid</span><span className="shrink-0">{naira(order.total)}</span></div>
       </div>
       <h2 className="mb-1 mt-6 font-bold">Delivering to</h2>
       <p className="text-sm text-ink/70">{order.delivery.name}, {order.delivery.phone}<br />{order.delivery.address}, {order.delivery.city}, {order.delivery.state}</p>
